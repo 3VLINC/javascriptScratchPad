@@ -1,0 +1,1 @@
+export { component as appComponent } from './app.component';
