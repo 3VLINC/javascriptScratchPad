@@ -25,12 +25,12 @@ var connect = require('gulp-connect');
 function handleErrors() {
 
   var args = Array.prototype.slice.call(arguments);
-  
+
   notify.onError({
     title: "Compile Error",
     message: "<%= error.message %>"
   }).apply(this, args);
-  
+
   this.emit('end'); // Keep gulp from hanging on this task
 
 }
@@ -74,11 +74,11 @@ function bundle_js(bundler) {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
-    
+
 }
 
 function compileSCSS() {
-	
+
 	gulp.src('src/index.scss')
 		.pipe(sass({
 				includePaths: ['./node_modules']
@@ -95,7 +95,7 @@ function compileSCSS() {
 
 function copyIndex() {
 
-  gulp.src('src/index.php')
+  gulp.src('src/index.html')
     .pipe(gulp.dest('dist/'));
 
 }
@@ -124,20 +124,20 @@ gulp.task('copy-content', copyContent);
 gulp.task('copy-image', copyImages);
 
 gulp.task('connect', function() {
-  
+
   connect.server({
     root: 'dist',
     livereload: true,
-    fallback: 'dist/index.php'
+    fallback: 'dist/index.html'
   });
 
 });
- 
+
 gulp.task('default', ['watch', 'watchify', 'connect']);
 
 gulp.task('watch', function() {
 
-	gulp.watch('src/index.php', ['copy-index']);
+	gulp.watch('src/index.html', ['copy-index']);
 	gulp.watch('src/**/*.scss', ['compile-scss']);
   gulp.watch('src/content/**/*.html', ['copy-content']);
   gulp.watch('src/image/**/*.{jpg,svg,png,gif}', ['copy-image']);
